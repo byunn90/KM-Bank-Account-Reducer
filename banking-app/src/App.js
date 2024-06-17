@@ -1,3 +1,4 @@
+import { useReducer } from "react";
 import "./style.css";
 
 const initialState = {
@@ -5,8 +6,20 @@ const initialState = {
   loan: 0,
   isActive: false,
 };
+function reducer(state, action) {
+  switch (action.type) {
+    case "openAccount":
+      return {
+        ...state,
+        isActive: true,
+      };
+    default:
+      return state;
+  }
+}
 
 export default function App() {
+  const [{ dispatch }] = useReducer(reducer, initialState);
   return (
     <div className="App">
       <h1>useReducer Bank Account</h1>
@@ -14,7 +27,7 @@ export default function App() {
       <p>Loan: X</p>
 
       <p>
-        <button onClick={() => {}} disabled={false}>
+        <button onClick={() => dispatch({ type: "start" })}>
           Open account
         </button>
       </p>
