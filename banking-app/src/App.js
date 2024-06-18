@@ -18,6 +18,13 @@ function reducer(state, action) {
       return {
         ...state,
         isActive: true,
+        balance: state.balance + 150,
+      };
+    case "withdraw":
+      return {
+        ...state,
+        isActive: true,
+        balance: state.balance - 50,
       };
 
     default:
@@ -26,18 +33,10 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const {
-    balance,
-    loan,
-    isActive,
-    openAccount,
-    deposit,
-    withDraw,
-    requestLoan,
-    payloan,
-    closeAccount,
-  } = state;
+  const [{ balance, loan, isActive }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
   return (
     <div className="App">
       <h1>useReducer Bank Account</h1>
@@ -63,7 +62,10 @@ export default function App() {
         </button>
       </p>
       <p>
-        <button onClick={() => {}} disabled={!isActive}>
+        <button
+          onClick={() => dispatch({ type: "withdraw" })}
+          disabled={!isActive}
+        >
           Withdraw 50
         </button>
       </p>
