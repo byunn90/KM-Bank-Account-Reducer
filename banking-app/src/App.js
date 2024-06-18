@@ -26,7 +26,30 @@ function reducer(state, action) {
         isActive: true,
         balance: state.balance - 50,
       };
-
+    case "requestLoan":
+      return state.loan > 0
+        ? state
+        : {
+            ...state,
+            loan: 5000,
+            balance: state.balance + 5000,
+          };
+    case "payLoan":
+      return state.balance < state.loan
+        ? state
+        : {
+            ...state,
+            loan: 0,
+            balance: state.balance - state.loan,
+          };
+    case "closeAcount":
+      return state.loan === 0
+        ? state
+        : {
+            isActive: false,
+            balance: 0,
+            loan: 0,
+          };
     default:
       return state;
   }
@@ -37,6 +60,7 @@ export default function App() {
     reducer,
     initialState
   );
+
   return (
     <div className="App">
       <h1>useReducer Bank Account</h1>
@@ -70,20 +94,26 @@ export default function App() {
         </button>
       </p>
       <p>
-        <button onClick={() => {}} disabled={!isActive}>
+        <button
+          onClick={() => dispatch({ type: "requestLoan" })}
+          disabled={!isActive}
+        >
           Request a loan of 5000
         </button>
       </p>
       <p>
         <button
-          onClick={() => dispatch({ type: "CloseAccount" })}
+          onClick={() => dispatch({ type: "payLoan" })}
           disabled={!isActive}
         >
           Pay loan
         </button>
       </p>
       <p>
-        <button onClick={() => {}} disabled={!isActive}>
+        <button
+          onClick={() => dispatch({ type: "closeAcount" })}
+          disabled={!isActive}
+        >
           Close account
         </button>
       </p>
